@@ -531,7 +531,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </div>
+      </motion.div>
 
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
