@@ -56,6 +56,25 @@ body {
     box-shadow: 0 0 10px rgba(104, 152, 250, 0.4), 
                 inset 0 0 10px rgba(104, 152, 250, 0.2);
   }
+
+  .cyber-glow:focus {
+    box-shadow: 0 0 15px rgba(104, 152, 255, 0.3);
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
 }
 
 @keyframes scan {
