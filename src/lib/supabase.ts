@@ -11,15 +11,28 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
-// Helper function to insert usage history for later
-export async function trackGenerationUsage(userId: string, targetType: string) {
+// Helper function to insert usage history
+export async function trackGenerationUsage(
+  userId: string,
+  productName: string,
+  businessType: string,
+  contentType: string,
+  generatedContent: string
+) {
   try {
     if (!supabaseUrl || !supabaseAnonKey) return;
     
     const { error } = await supabase
       .from("generations")
       .insert([
-        { user_id: userId, content_type: targetType, created_at: new Date().toISOString() }
+        { 
+          user_id: userId, 
+          product_name: productName,
+          business_type: businessType,
+          content_type: contentType,
+          generated_content: generatedContent,
+          created_at: new Date().toISOString() 
+        }
       ]);
       
     if (error) throw error;

@@ -1,11 +1,38 @@
 "use client";
 
-import { Upload, Loader2, Copy, RefreshCw, Zap } from "lucide-react";
-import { useState } from "react";
+import { Upload, Loader2, Copy, RefreshCw, Zap, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase, trackGenerationUsage } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoadingSession, setIsLoadingSession] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [output, setOutput] = useState("");
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        window.location.href = "/auth";
+      } else {
+        setUser(session.user);
+      }
+      setIsLoadingSession(false);
+    };
+    checkSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        window.location.href = "/auth";
+      } else {
+        setUser(session.user);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
   
   // Form State
   const [formData, setFormData] = useState({
@@ -52,13 +79,30 @@ export default function Home() {
       }
 
       const data = await res.json();
-      setOutput(data.content || "No content generated.");
+      const generatedText = data.content || "No content generated.";
+      setOutput(generatedText);
+
+      // Save to Supabase for this user
+      if (user && generatedText !== "No content generated.") {
+        await trackGenerationUsage(
+          user.id,
+          formData.productName,
+          formData.businessType,
+          formData.contentType,
+          generatedText
+        );
+      }
     } catch (error) {
       console.error(error);
       setOutput("An error occurred during generation. Please try again or check your API key.");
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/auth";
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,6 +136,14 @@ export default function Home() {
     }
   };
 
+  if (isLoadingSession) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#000000] p-4 text-slate-300 font-sans">
       
@@ -107,9 +159,18 @@ export default function Home() {
               PROJECT WORKSPACE 
               <div className="h-[2px] w-12 bg-slate-700"></div>
             </div>
-            <h1 className="text-3xl lg:text-4xl font-black italic tracking-wide text-white">
-              AI CONTENT STUDIO
-            </h1>
+            <div className="flex justify-between items-center">
+              <h1 className="text-3xl lg:text-4xl font-black italic tracking-wide text-white">
+                AI CONTENT STUDIO
+              </h1>
+              <button 
+                onClick={handleLogout}
+                className="px-4 py-1.5 rounded-full bg-[#161616] border border-[#222] hover:bg-[#222] text-slate-300 text-[9px] font-bold uppercase tracking-wider transition-colors flex items-center gap-2"
+              >
+                <LogOut className="w-3 h-3" />
+                Logout
+              </button>
+            </div>
           </div>
 
           {/* Form Fields Section */}
