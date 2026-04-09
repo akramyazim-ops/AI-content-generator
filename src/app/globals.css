@@ -41,4 +41,39 @@ body {
   .glass-panel-dark {
     @apply bg-slate-900/70 backdrop-blur-md border border-slate-700/50 shadow-xl;
   }
+
+  .scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #6898ff, transparent);
+    box-shadow: 0 0 15px #6898ff;
+    z-index: 20;
+    animation: scan 3s linear infinite;
+  }
+
+  .cyber-glow {
+    box-shadow: 0 0 10px rgba(104, 152, 250, 0.4), 
+                inset 0 0 10px rgba(104, 152, 250, 0.2);
+  }
+}
+
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.glitch-hover:hover {
+  animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
 }
