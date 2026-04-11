@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Content Studio ⚡
 
-## Getting Started
+A high-fidelity, cyberpunk-aesthetic social media content generator tailored for Malaysian SMEs. Built with Next.js, Framer Motion, and Google Gemini.
 
-First, run the development server:
+![AI Content Studio Mockup](https://raw.githubusercontent.com/akramyazim-ops/AI-content-generator/main/public/preview.png) *(Note: Add a real preview image to public/ folder if available)*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Cyberpunk UI**: Ultra-modern, responsive split-panel interface with glassmorphism and smooth animations.
+- **Localized Content**: Specifically designed for the Malaysian market with support for casual (santai) and technical tones.
+- **Multimodal AI**: Powered by Google Gemini for text and image-to-text generation.
+- **Engagement Focused**: Generate TikTok scripts, Instagram captions, and Facebook posts that convert.
+- **Usage Tracking**: Integrated with Supabase to track content generation and user tokens.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Core**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS 4, Framer Motion (for high-fidelity animations)
+- **AI**: Gemini 1.5 Flash (vision and text)
+- **Backend**: Supabase (Auth, Database, Storage)
+- **Icons**: Lucide React
 
-## Learn More
+## 🛠️ Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js 18+
+- Supabase Account
+- Google AI (Gemini) API Key
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/akramyazim-ops/AI-content-generator.git
+   cd AI-content-generator
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Set up environment variables (`.env.local`):
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+   GOOGLE_AI_API_KEY=your_gemini_api_key
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 📦 Database Schema
+
+The studio requires the following Supabase setup (available in `supabase_setup.sql`):
+- `usage_tracking` table for monitoring AI generations.
+- Row Level Security (RLS) for data privacy.
+
+## 📄 License
+
+Private - (c) 2026 AI Content Studio Team

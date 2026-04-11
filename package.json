@@ -1,6 +1,7 @@
 {
-  "name": "temp_app",
+  "name": "ai-content-studio",
   "version": "0.1.0",
+  "description": "High-fidelity AI Content Studio for Malaysian SME social media generation.",
   "private": true,
   "scripts": {
     "dev": "next dev",
